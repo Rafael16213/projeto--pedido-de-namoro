@@ -1,6 +1,8 @@
 @media (max-width: 768px){
     main::after{
         width: 100vw;
+        background: linear-gradient(0deg, #000 5%, rgba(0, 0, 0, 0.00) 60%) no-repeat;
+        width: 100vw;
     }
 
     main .personagem .imagem{
