@@ -1,51 +1,66 @@
-// Seleciona todos os botões de personagem
-const botoes = document.querySelectorAll(".botao");
-// Seleciona todos os personagens
-const personagens = document.querySelectorAll(".personagem");
-
-// Adiciona o evento de clique em cada botão
-botoes.forEach((botao, indice) => {
-	botao.addEventListener("click", () => {
-		removerSelecaoBotao();
-		selecionarBotao(botao);
-
-		removerSelecaoPersonagem();
-		selecionarPersonagem(indice);
-	});
-});
+// Seleciona todos os botões e personagens do DOM
+const botoes = document.querySelectorAll('.botao');
+const personagens = document.querySelectorAll('.personagem');
 
 /**
- * Remove a classe "selecionado" do botão que está atualmente selecionado
+ * Remove o botão atualmente selecionado
  */
-function removerSelecaoBotao() {
-	const botaoSelecionado = document.querySelector(".botao.selecionado");
-	if (botaoSelecionado) {
-		botaoSelecionado.classList.remove("selecionado");
-	}
+function desmarcarBotaoSelecionado() {
+    const botaoSelecionado = document.querySelector('.botao.selecionado');
+    if (botaoSelecionado) {
+        botaoSelecionado.classList.remove('selecionado');
+    }
 }
 
 /**
- * Adiciona a classe "selecionado" ao botão clicado
- * @param {Element} botao - Botão que foi clicado
+ * Marca o botão clicado como selecionado
+ * @param {HTMLElement} botao - botão clicado
  */
-function selecionarBotao(botao) {
-	botao.classList.add("selecionado");
+function marcarBotaoComoSelecionado(botao) {
+    botao.classList.add('selecionado');
 }
 
 /**
- * Remove a classe "selecionado" do personagem atualmente exibido
+ * Oculta o personagem atualmente visível
  */
-function removerSelecaoPersonagem() {
-	const personagemSelecionado = document.querySelector(".personagem.selecionado");
-	if (personagemSelecionado) {
-		personagemSelecionado.classList.remove("selecionado");
-	}
+function esconderPersonagemSelecionado() {
+    const personagemSelecionado = document.querySelector('.personagem.selecionado');
+    if (personagemSelecionado) {
+        personagemSelecionado.classList.remove('selecionado');
+    }
 }
 
 /**
- * Adiciona a classe "selecionado" ao personagem correspondente ao botão clicado
- * @param {number} indice - Índice do botão clicado, que corresponde ao personagem
+ * Exibe o personagem correspondente ao botão clicado
+ * @param {number} indice - índice do personagem
  */
-function selecionarPersonagem(indice) {
-	personagens[indice].classList.add("selecionado");
+function mostrarPersonagemCorrespondente(indice) {
+    personagens[indice].classList.add('selecionado');
 }
+
+/**
+ * Adiciona eventos de clique (compatível com mobile e desktop)
+ */
+function adicionarEventosNosBotoes() {
+    botoes.forEach((botao, indice) => {
+        // Usa tanto 'click' (desktop) quanto 'touchstart' (mobile) para garantir resposta rápida
+        botao.addEventListener('click', () => alterarPersonagem(indice, botao));
+        botao.addEventListener('touchstart', () => alterarPersonagem(indice, botao), { passive: true });
+    });
+}
+
+/**
+ * Lógica completa de alteração de botão/personagem
+ * @param {number} indice - índice do personagem
+ * @param {HTMLElement} botao - botão clicado
+ */
+function alterarPersonagem(indice, botao) {
+    desmarcarBotaoSelecionado();
+    marcarBotaoComoSelecionado(botao);
+
+    esconderPersonagemSelecionado();
+    mostrarPersonagemCorrespondente(indice);
+}
+
+// Inicialização
+adicionarEventosNosBotoes();
